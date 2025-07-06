@@ -1,0 +1,68 @@
+Why do we even need LAMP stack with Wordpress:
+
+Wordpress is not a standalone program, it's a php-based web application, that needs:
+    - web server
+    - PHP to run its code
+    - MySQL db to store content, settings, users, posts and etc.
+
+What is LAMP:
+- Linux  - OS
+- Apache - Web server
+- MySQL  - Database
+- PHP    - Scripting language
+
+Without one of them Wordpress can't function
+
+
+
+Step-by-step installation Guide:
+
+1. Creating server
+
+2. ssh root@serverip
+
+3. sudo apt update && sudo apt upgrade -y               # Updating system packages, to ensure we have latest security and stability updates
+
+4. sudo apt install apache2 -y                          # Installing Apache, listens on port 80/443, serves the website
+5. sudo systemctl enable apache2
+6. sudo systemctl start apache2
+
+7. sudo apt install mysql-server -y                     # Installing MySQL, db for storing the content
+
+8. sudo mysql_secure_installation                       # Optional (Setting root pswd, removing anonymous users ...)
+
+9. sudo apt install php libapache2-mod-php php-mysql -y # Installing PHP and PHP modules, is what runs the WordPress backend; 
+                                                        # MySQL module lets PHP talk to MySQL
+
+10. cd /tmp
+curl -O https://wordpress.org/latest.tar.gz
+tar -xvzf latest.tar.gz
+sudo cp -r wordpress/* /var/www/html/                   # Downloading and Configuring WordPress
+
+11. sudo chown -R www-data:www-data /var/www/html       # Setting permissions, Apache runs as www-data and needs permission to read/write files
+
+12. sudo mysql -u root -p                               # Creating MySQL DB and User
+
+13.                                                     # Inside MySQL shell creating DB and User to access it
+CREATE DATABASE wordpress_db;
+CREATE USER 'wordpress_user'@'localhost' IDENTIFIED BY 'YourStrongPassword';
+GRANT ALL PRIVILEGES ON wordpress_db.* TO 'wordpress_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+
+14.                                                     # Configuring WordPress to use the Database
+cd /var/www/html
+cp wp-config-sample.php wp-config.php
+nano wp-config.php
+
+    # Updating the DB section inside wp-config.php - This is how WordPress will connect the DB:
+    define( 'DB_NAME', 'wordpress_db' );
+    define( 'DB_USER', 'wordpress_user' );
+    define( 'DB_PASSWORD', 'YourStrongPassword' );
+    define( 'DB_HOST', 'localhost' );
+
+15. sudo systemctl restart apache2                      # Reloading the server with the new settings
+
+16. http://serverip                                     # Visiting WordPress setup page and manually configuring Wordpress
+
+
