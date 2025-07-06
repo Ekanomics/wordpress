@@ -52,8 +52,12 @@ EXIT;
 
 14.                                                     # Configuring WordPress to use the Database
 cd /var/www/html
-cp wp-config-sample.php wp-config.php
+cp wp-config-sample.php wp-config.php                   # Creating config file
 nano wp-config.php
+
+# Optional
+curl -s https://api.wordpress.org/secret-key/1.1/salt/  # will show you secure salts
+                                                        # Can copy outputs and replace existing lines in wp-config.php
 
     # Updating the DB section inside wp-config.php - This is how WordPress will connect the DB:
     define( 'DB_NAME', 'wordpress_db' );
@@ -66,3 +70,12 @@ nano wp-config.php
 16. http://serverip                                     # Visiting WordPress setup page and manually configuring Wordpress
 
 
+
+
+
+# WordPress tutorial (on Ubuntu 22.04) with a LAMP stack
+
+https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-ubuntu-22-04-with-a-lamp-stack#step-4-downloading-wordpress
+
+
+____________________________
